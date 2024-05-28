@@ -6,8 +6,13 @@
         <nav class="nav navbar-nav">
             <ul class=" navbar-right">
                 <li class="nav-item dropdown open" style="padding-left: 15px;">
-                    <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
-                    <img src="{{ asset('assets/admin/images/img.jpg') }}" alt="">John Doe
+                    <a href="javascript:;" class="user-profile" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
+                        @if (Auth::guard('admin')->user()->image_url == null || empty(Auth::guard('admin')->user()->image_url))
+                        <img src="{{ asset('assets/admin/images/user.png') }}" alt="">
+                        @else
+                        <img src="{{ Auth::guard('admin')->user()->image_url }}" alt="">
+                        @endif
+                    {{ Auth::guard('admin')->user()->name }}<br/>
                     </a>
                     <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item"  href="javascript:;"> Profile</a>
@@ -16,7 +21,7 @@
                         <span>Settings</span>
                         </a>
                         <a class="dropdown-item"  href="javascript:;">Help</a>
-                        <a class="dropdown-item"  href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
+                        <a class="dropdown-item"  href="{{ route('auth.logout') }}"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
                     </div>
                 </li>
                 <li role="presentation" class="nav-item dropdown open">

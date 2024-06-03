@@ -36,7 +36,7 @@ class ComplexController extends Controller
                 'success' => 'Complex added successfully !!'
             ]);
 
-        } catch(Exception $ex) {
+        } catch(\Exception $ex) {
             return redirect()->back()->with('error', $ex->getMessage());
         }
     }
@@ -81,7 +81,7 @@ class ComplexController extends Controller
             return redirect()->route('complex.index')->with([
                 'success' => 'Complex Updated successfully !!'
             ]);
-        } catch(Exception $ex) {
+        } catch(\Exception $ex) {
             return redirect()->back()->with('error', $ex->getMessage()); 
         }
     }

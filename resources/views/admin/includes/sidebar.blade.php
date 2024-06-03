@@ -10,7 +10,7 @@
                 @if (Auth::guard('admin')->user()->image_url == null || empty(Auth::guard('admin')->user()->image_url))
                 <img src="{{ asset('assets/admin/images/user.png') }}" alt="..." class="img-circle profile_img">
                 @else
-                <img src="{{ Auth::guard('admin')->user()->image_url }}" alt="..." class="img-circle profile_img">
+                <img src="{{ asset('assets/admin/upload/' . Auth::guard('admin')->user()->image_url) }}" alt="..." class="img-circle profile_img">
                 @endif
             </div>
             <div class="profile_info">

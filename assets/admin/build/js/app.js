@@ -25,4 +25,61 @@ $(document).ready(function() {
             }
         });
     });
+
+    //UPDATE Coach STATUS
+    $(document).on('click', '.updateCoachStatus', function() {
+        var status = $(this).children('i').attr('status');
+        var coach_id = $(this).attr('coach-id');
+        
+        $.ajax({
+            type:'POST',
+            url:'update-coach-status',
+            data: {status: status, coach_id: coach_id},
+            success:function(resp) {
+                if (resp['status'] == 0) {
+                    $('#coach-'+coach_id).html('<i class="fa fa-toggle-off" status="Inactive" title="Inactive"></i>');
+                } else {
+                    $('#coach-'+coach_id).html('<i class="fa fa-toggle-on" status="Active" title="Active"></i>');
+                }
+            }, error:function() {
+                alert('Error');
+            }
+        });
+    });
+
+    //COACH IMAGE
+    $(document).on('click', '#change-image', function() {
+        if(!$('#photo').length) {
+            $('#old-image').html('<input type="file" name="photo" id="photo" class="mt-2 ml-3" accept="image/*" />');
+            $('#change-image').hide();
+            $('#cancel-change').show();
+        }
+    });
+
+    $(document).on('change', '#photo', function() {
+        readURL(this);
+    });
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#coach_image')
+                    .attr('src', e.target.result)
+                    .width(150);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $(document).on('click', '#cancel-change', function() {
+        if($('#photo').length) {
+            $('#old-image').html('');
+            $('#coach_image').attr('src', '../assets/admin/images/user.png')
+            $('#change-image').show();
+            $('#cancel-change').hide();
+        }
+    });
 });

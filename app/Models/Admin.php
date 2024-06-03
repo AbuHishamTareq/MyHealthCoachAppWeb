@@ -31,4 +31,12 @@ class Admin extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public function getComplexName() {
+        return $this->BelongsTo('App\Models\Complex', 'complex_id');
+    }
+
+    public function getRole() {
+        return $this->BelongsTo('App\Models\UserType', 'user_type');
+    }
 }

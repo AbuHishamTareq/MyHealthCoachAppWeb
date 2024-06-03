@@ -17,12 +17,13 @@ class AdminController extends Controller
     public function login(AdminRequest $request) {
         if (Auth::guard('admin')->attempt([
             'email' => $request->input('email'),
-            'password' => $request->input('password')
+            'password' => $request->input('password'),
+            'status' => 1
         ])) {
             return redirect()->route('dashboard.index');
         } else {
             return redirect()->route('auth.login.show')->with([
-                'error' => 'Invalid email address or password !'
+                'error' => 'Invalid email address or password. Please check with Adminstrator if your account is active !'
             ]);
         }
     }

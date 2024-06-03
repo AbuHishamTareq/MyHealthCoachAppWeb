@@ -24,7 +24,7 @@ My Health Coach | Health Coach
     <div class="col-md-12 col-sm-12  ">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Complexes Table</h2>
+                <h2>Users Table</h2>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -59,22 +59,22 @@ My Health Coach | Health Coach
                                     @if ($coach['image_url'] == null || empty($coach['image_url']))
                                     <img src="{{ asset('assets/admin/images/user.png') }}" alt="..." class="img-circle profile_img">
                                     @else
-                                    <img src="{{ $coach['image_url'] }}" alt="..." class="img-circle profile_img">
+                                    <img src="{{ asset('assets/admin/upload/'. $coach['image_url']) }}" alt="..." class="img-circle" style="width: 35px;">
                                     @endif
                                 </td>
-                                <td class=" ">{{ $coach['uid'] }}</td>
-                                <td class=" ">{{ $coach['name'] }}</td>
-                                <td class=" ">{{ $coach['complex_id'] }}</td>
-                                <td class=" ">@if (empty($coach['phone_number']))
+                                <td class=" " style="vertical-align: middle">{{ $coach['uid'] }}</td>
+                                <td class=" " style="vertical-align: middle">{{ $coach['name'] }}</td>
+                                <td class=" " style="vertical-align: middle">{{ $coach['get_complex_name']['name'] }}</td>
+                                <td class=" " style="vertical-align: middle">@if (empty($coach['mobile']))
                                     ---
                                     @else
-                                    {{ $coach['phone_number'] }}
+                                    {{ $coach['mobile'] }}
                                     @endif
                                 </td>
                                 @if (Auth::guard('admin')->user()->user_type == 0)
-                                <td class=" ">{{ $coach['user_type'] }} </td>
+                                <td class=" " style="vertical-align: middle">{{ $coach['get_role']['role'] }} </td>
                                 @endif
-                                <td class="text-center">
+                                <td class="text-center" style="vertical-align: middle">
                                     @if ($coach['status'] == 1)
                                         <a href="javascript:void(0)" class="updateCoachStatus" id="coach-{{ $coach['id'] }}" coach-id= {{ $coach['id'] }}>
                                             <i class="fa fa-toggle-on" status="Active" title="Active"></i>
@@ -85,7 +85,7 @@ My Health Coach | Health Coach
                                     </a>
                                     @endif
                                 </td>
-                                <td class="text-center">
+                                <td class="text-center" style="vertical-align: middle">
                                     <a href="#" title="Edit Coach Information"><i class="fa fa-edit mr-2" style="color: darkgreen; font-size: 18px"></i></a>
                                     <a href="#" title="View Coach Information"><i class="fa fa-eye" style="color: darkred; font-size: 18px"></i></a>
                                 </td>

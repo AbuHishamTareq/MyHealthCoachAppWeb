@@ -39,6 +39,7 @@ Route::GROUP(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'auth
     Route::GET('coach', [CoachController::class, 'index'])->name('coach.index');
     Route::GET('insert-coach', [CoachController::class, 'show'])->name('coach.show.insert');
     Route::POST('insert-coach', [CoachController::class, 'insert'])->name('coach.insert');
+    Route::POST('update-coach-status', [CoachController::class, 'updateStatus']);
 });
 
 Route::GROUP(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'guest:admin'], function() {

@@ -21,7 +21,7 @@
         <!-- Custom Theme Style -->
         <link href="{{ url('assets/admin/build/css/custom.min.css') }}" rel="stylesheet">
     </head>
-    <body class="nav-md footer_fixed">
+    <body @yield('class')>
         <div class="container body">
             <div class="main_container">
                 @include('admin.includes.sidebar')

@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\CoachController;
 use App\Http\Controllers\Admin\ComplexController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserTypeController;
+use App\Http\Controllers\Admin\PatientController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,12 +35,20 @@ Route::GROUP(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'auth
     Route::POST('update-complex-status', [ComplexController::class, 'updateStatus']);
     Route::GET('update/{id?}', [ComplexController::class, 'showUpdate'])->name('complex.update.show');
     Route::POST('update/{id?}', [ComplexController::class, 'update'])->name('complex.update');
+    Route::GET('view/{id?}', [ComplexController::class, 'view'])->name('complex.view');
 
     //HEALTH COACH
     Route::GET('coach', [CoachController::class, 'index'])->name('coach.index');
     Route::GET('insert-coach', [CoachController::class, 'show'])->name('coach.show.insert');
     Route::POST('insert-coach', [CoachController::class, 'insert'])->name('coach.insert');
     Route::POST('update-coach-status', [CoachController::class, 'updateStatus']);
+    Route::GET('update-coach/{id?}', [CoachController::class, 'showUpdate'])->name('coach.update.show');
+    Route::POST('update-coach/{id?}', [CoachController::class, 'update'])->name('coach.update');
+
+    //PATIENT
+    Route::GET('patient', [PatientController::class, 'index'])->name('patient.index');
+    Route::GET('insert-patient', [PatientController::class, 'show'])->name('patient.show.insert');
+    //Route::POST('insert-patient', [PatientController::class, 'insert'])->name('patient.insert');
 });
 
 Route::GROUP(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'guest:admin'], function() {

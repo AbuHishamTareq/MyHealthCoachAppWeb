@@ -75,9 +75,14 @@ $(document).ready(function() {
     }
 
     $(document).on('click', '#cancel-change', function() {
+        var image_url = $(this).attr('image-url');
         if($('#photo').length) {
             $('#old-image').html('');
-            $('#coach_image').attr('src', '../assets/admin/images/user.png')
+            if(image_url == null) {
+                $('#coach_image').attr('src', '../assets/admin/images/user.png');
+            } else {
+                $('#coach_image').attr('src', '../../assets/admin/upload/' + image_url);
+            }
             $('#change-image').show();
             $('#cancel-change').hide();
         }

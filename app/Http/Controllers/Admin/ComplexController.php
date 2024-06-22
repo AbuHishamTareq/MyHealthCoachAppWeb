@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ComplexRequest;
+use App\Models\Admin;
 use Illuminate\Http\Request;
 use App\Models\Complex;
 use Exception;
@@ -84,5 +85,17 @@ class ComplexController extends Controller
         } catch(\Exception $ex) {
             return redirect()->back()->with('error', $ex->getMessage()); 
         }
+    }
+
+    public function view($id) {
+        $complex = Complex::find($id);
+        if(auth()->guard('admin')->user()->user_type == 0 || auth()->guard('admin')->user()->user_type == 1) {
+            $coaches = Admin::with('getRole')->where('complex_id', $id)->get()->toArray();
+        } else {
+            $coaches = Admin::with('getRole')
+            ->where('complex_id', $id)
+            ->where('user_type', '>', 1)->get()->toArray();
+        }
+        return view('admin.operations.complex.view', compact('complex', 'coaches'));
     }
 }

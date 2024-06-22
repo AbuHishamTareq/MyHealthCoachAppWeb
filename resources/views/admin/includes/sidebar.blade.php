@@ -42,7 +42,7 @@
                         <ul class="nav child_menu">
                             <li><a href="{{ route('complex.index') }}">Complex</a></li>
                             <li><a href="{{ route('coach.index') }}">Health Coach</a></li>
-                            <li><a href="#">Patient</a></li>
+                            <li><a href="{{ route('patient.index') }}">Patient</a></li>
                         </ul>
                     </li>
                     <li>

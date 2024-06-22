@@ -2,6 +2,9 @@
 @section('title')
 My Health Coach | User Roles
 @endsection
+@section('class')
+class="nav-md footer_fixed"
+@endsection
 @section('content')
 <div class="page-title">
     <div class="title_left">

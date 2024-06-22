@@ -2,6 +2,9 @@
 @section('title')
 My Health Coach | Dashboard
 @endsection
+@section('class')
+class="nav-md footer_fixed"
+@endsection
 @section('content')
 <!-- top tiles -->
 <div class="row" style="display: flex; justify-content: center;" >

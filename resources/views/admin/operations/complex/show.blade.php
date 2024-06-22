@@ -2,6 +2,9 @@
 @section('title')
 My Health Coach | Insert Complex
 @endsection
+@section('class')
+class="nav-md footer_fixed"
+@endsection
 @section('content')
 <div class="">
     <div class="page-title">

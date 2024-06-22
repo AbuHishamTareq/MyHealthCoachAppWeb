@@ -2,6 +2,9 @@
 @section('title')
 My Health Coach | Health Coach
 @endsection
+@section('class')
+class="nav-md footer_fixed"
+@endsection
 @section('content')
 <div class="page-title">
     <div class="title_left">
@@ -86,7 +89,7 @@ My Health Coach | Health Coach
                                     @endif
                                 </td>
                                 <td class="text-center" style="vertical-align: middle">
-                                    <a href="#" title="Edit Coach Information"><i class="fa fa-edit mr-2" style="color: darkgreen; font-size: 18px"></i></a>
+                                    <a href="{{ route('coach.update.show', $coach['id']) }}" title="Edit Coach Information"><i class="fa fa-edit mr-2" style="color: darkgreen; font-size: 18px"></i></a>
                                     <a href="#" title="View Coach Information"><i class="fa fa-eye" style="color: darkred; font-size: 18px"></i></a>
                                 </td>
                             </tr>

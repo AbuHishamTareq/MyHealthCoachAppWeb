@@ -25,6 +25,8 @@ return new class extends Migration
             $table->integer('complex_id');
             $table->date('birth_date');
             $table->tinyInteger('status')->default(0);
+            $table->integer('created_by')->nullable();
+            $table->integer('updated_by')->nullable();
             $table->timestamps();
         });
     }

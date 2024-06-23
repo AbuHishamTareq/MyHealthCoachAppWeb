@@ -48,7 +48,13 @@ Route::GROUP(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'auth
     //PATIENT
     Route::GET('patient', [PatientController::class, 'index'])->name('patient.index');
     Route::GET('insert-patient', [PatientController::class, 'show'])->name('patient.show.insert');
-    //Route::POST('insert-patient', [PatientController::class, 'insert'])->name('patient.insert');
+    Route::POST('insert-patient', [PatientController::class, 'insert'])->name('patient.insert');
+    Route::POST('update-patient-status', [PatientController::class, 'updateStatus']);
+    Route::GET('import', [PatientController::class, 'showImport'])->name('patient.show.import');
+    Route::POST('import', [PatientController::class, 'import'])->name('patient.import');
+    ROute::GET('template', [PatientController::class, 'downloadTemplate'])->name('patient.template');
+    Route::GET('progress', [PatientController::class, 'showProgress'])->name('patient.show.import.progress');
+    Route::POST('search', [PatientController::class, 'ajaxSearch'])->name('patient.serach');
 });
 
 Route::GROUP(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'guest:admin'], function() {

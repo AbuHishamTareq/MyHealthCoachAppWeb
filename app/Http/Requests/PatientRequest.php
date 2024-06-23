@@ -22,7 +22,24 @@ class PatientRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'uid' => 'required|numeric|unique:patients,uid',
+            'name' => 'required',
+            'phone' => 'required',
+            'coach_name' => 'required',
+            'gender' => 'required'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'uid.required' => 'Please enter patient ID / Iqama No.',
+            'uid.numeric' => 'ID / Iqama No. must be a number.',
+            'uid.unique' => 'ID / Iqama No. already registerd.',
+            'name.required' => 'Please enter patient name.',
+            'phone.required' => 'Please enter patient mobile.',
+            'coach_name.required' => 'Please select health coach.',
+            'gender.required' => 'Please select gender.'
         ];
     }
 }

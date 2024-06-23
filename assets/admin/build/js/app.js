@@ -87,4 +87,107 @@ $(document).ready(function() {
             $('#cancel-change').hide();
         }
     });
+
+    //UPDATE PATIENT STATUS
+    $(document).on('click', '.updatePatientStatus', function() {
+        var status = $(this).children('i').attr('status');
+        var patient_id = $(this).attr('patient-id');
+        
+        $.ajax({
+            type:'POST',
+            url:'update-patient-status',
+            data: {status: status, patient_id: patient_id},
+            success:function(resp) {
+                if (resp['status'] == 0) {
+                    $('#patient-'+patient_id).html('<i class="fa fa-toggle-off" status="Inactive" title="Inactive"></i>');
+                } else {
+                    $('#patient-'+patient_id).html('<i class="fa fa-toggle-on" status="Active" title="Active"></i>');
+                }
+            }, error:function() {
+                alert('Error');
+            }
+        });
+    });
+
+    //SEARCH PAITIENT BY NAME
+    $(document).on('input', '#searchPName', function(e) {
+        makeSearch();
+    });
+
+    $(document).on('input', '#searchUID', function(e) {
+        makeSearch();
+    });
+
+    $(document).on('input', '#searchPhone', function(e) {
+        makeSearch();
+    });
+
+    $(document).on('change', '#searchGender', function(e) {
+        makeSearch();
+    });
+
+    $(document).on('change', '#searchCoach', function(e) {
+        makeSearch();
+    });
+
+    $(document).on('click', '#searchPagination a', function(e) {
+        e.preventDefault();
+        var searchPName = $('#searchPName').val();
+        var searchUID = $('#searchUID').val();
+        var searchPhone = $('#searchPhone').val();
+        var searchGender = $('#searchGender').val();
+        var searchCoach = $('#searchCoach').val();
+        var url = $(this).attr('href');
+        var token = $('#searchToken').val();
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            dataType: 'html',
+            cache: false,
+            data: {
+                searchPName: searchPName,
+                '_token': token,
+                searchUID: searchUID,
+                searchPhone: searchPhone,
+                searchGender: searchGender,
+                searchCoach: searchCoach
+            },
+            success: function(data) {
+                $('#ajaxSearchDiv').html(data);
+            }, error: function() {
+
+            }
+        });
+    });
+
+    function makeSearch() {
+        var searchPName = $('#searchPName').val();
+        var searchUID = $('#searchUID').val();
+        var searchPhone = $('#searchPhone').val();
+        var searchGender = $('#searchGender').val();
+        var searchCoach = $('#searchCoach').val();
+        var url = $('#searchUrl').val();
+        var token = $('#searchToken').val();
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            dataType: 'html',
+            cache: false,
+            data: {
+                searchPName: searchPName,
+                '_token': token,
+                searchUID: searchUID,
+                searchPhone: searchPhone,
+                searchGender: searchGender,
+                searchCoach: searchCoach
+            },
+            success: function(data) {
+                $('#ajaxSearchDiv').html(data);
+            }, error: function() {
+                alert('Error');
+            }
+        });
+    }
 });

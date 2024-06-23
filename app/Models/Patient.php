@@ -14,6 +14,7 @@ class Patient extends Model
     protected $fillable = [
         'uid',
         'name',
+        'gender',
         'password',
         'mobile',
         'region',
@@ -23,6 +24,16 @@ class Patient extends Model
         'coach_id',
         'complex_id',
         'birth_date',
-        'status'
+        'status',
+        'created_by',
+        'updated_by',
     ];
+
+    public function getComplex() {
+        return $this->BelongsTo('App\Models\Complex', 'complex_id');
+    }
+
+    public function getCoach() {
+        return $this->BelongsTo('App\Models\Admin', 'coach_id');
+    }
 }

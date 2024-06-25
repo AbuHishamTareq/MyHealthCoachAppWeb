@@ -15,6 +15,7 @@ class Patient extends Model
         'uid',
         'name',
         'gender',
+        'height',
         'password',
         'mobile',
         'region',

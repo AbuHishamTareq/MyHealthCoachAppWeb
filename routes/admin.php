@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\ComplexController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserTypeController;
 use App\Http\Controllers\Admin\PatientController;
+use App\Http\Controllers\Admin\PatientParametersController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -53,8 +54,11 @@ Route::GROUP(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'auth
     Route::GET('import', [PatientController::class, 'showImport'])->name('patient.show.import');
     Route::POST('import', [PatientController::class, 'import'])->name('patient.import');
     ROute::GET('template', [PatientController::class, 'downloadTemplate'])->name('patient.template');
-    Route::GET('progress', [PatientController::class, 'showProgress'])->name('patient.show.import.progress');
     Route::POST('search', [PatientController::class, 'ajaxSearch'])->name('patient.serach');
+
+    //PATIENT PARAMETERS
+    Route::GET('insert-parameters/{id?}', [PatientParametersController::class, 'show'])->name('parameter.show.insert');
+    Route::POST('insert-parameters/{id?}', [PatientParametersController::class, 'insert'])->name('parameter.insert');
 });
 
 Route::GROUP(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'guest:admin'], function() {

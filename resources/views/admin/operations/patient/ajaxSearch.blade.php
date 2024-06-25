@@ -48,7 +48,7 @@
                 @endif
             </td>
             <td class="text-center" style="vertical-align: middle">
-                <a href="#" title="Add Health Parameters"><i class="fa fa-plus mr-2" style="color: darkblue; font-size: 18px"></i></a>
+                <a href="{{ route('parameter.show.insert', $patient['id']) }}" title="Add Health Parameters"><i class="fa fa-plus mr-2" style="color: darkblue; font-size: 18px"></i></a>
                 <a href="#" title="Edit Patient Information"><i class="fa fa-edit mr-2" style="color: darkgreen; font-size: 18px"></i></a>
                 <a href="#" title="View Patient Information"><i class="fa fa-eye mr-2" style="color: darkred; font-size: 18px"></i></a>
                 <a href="#" title="Transfer Patient"><i class="fa fa-exchange" style="color: black; font-size: 18px"></i></a>

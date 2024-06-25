@@ -12,7 +12,9 @@ class="nav-md footer_fixed"
     </div>
     <div class="title_right">
         <div class="form-group row pull-right">
+            @if (auth()->guard('admin')->user()->user_type < 2)
             <a href="{{ route('patient.show.import') }}" class="btn btn-info btn-xs text-uppercase"><i class="fa fa-download mr-2"></i>Import Patients</a>
+            @endif
             <a href="{{ route('patient.show.insert') }}" class="btn btn-success btn-xs text-uppercase"><i class="fa fa-plus mr-2"></i>Add New Patient</a>
         </div>
     </div>
@@ -49,12 +51,23 @@ class="nav-md footer_fixed"
                 <div class="form-group col-md-4 col-sm-4">
                     <label for="searchGender">Gender</label>
                     <select name="searchGender" id="searchGender" class="form-control">
-                        <option value="All">All Patients</option>
+                        <option value="All">All Genders</option>
                         <option value="M">Male</option>
                         <option value="F">Female</option>
                     </select>
                 </div>
+                @if (auth()->guard('admin')->user()->user_type > 1)
                 <div class="form-group col-md-4 col-sm-4">
+                    <label for="searchCoach">Health Coach</label>
+                    <select name="searchCoach" id="searchCoach" class="form-control" disabled>
+                        <option value="All">All Health Coach</option>
+                        @foreach ($coaches as $coach)
+                        <option value="{{ $coach['id'] }}" {{ auth()->guard('admin')->user()->id == $coach['id'] ? "selected" : "" }}>{{ $coach['name'] }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                @else
+                 <div class="form-group col-md-4 col-sm-4">
                     <label for="searchCoach">Health Coach</label>
                     <select name="searchCoach" id="searchCoach" class="form-control">
                         <option value="All">All Health Coach</option>
@@ -62,7 +75,8 @@ class="nav-md footer_fixed"
                         <option value="{{ $coach['id'] }}">{{ $coach['name'] }}</option>
                         @endforeach
                     </select>
-                </div>
+                </div>   
+                @endif
                 <div class="clearfix"></div>
             </div>
         </div>
@@ -125,7 +139,7 @@ class="nav-md footer_fixed"
                                     @endif
                                 </td>
                                 <td class="text-center" style="vertical-align: middle">
-                                    <a href="#" title="Add Health Parameters"><i class="fa fa-plus mr-2" style="color: darkblue; font-size: 18px"></i></a>
+                                    <a href="{{ route('parameter.show.insert', $patient['id']) }}" title="Add Health Parameters"><i class="fa fa-plus mr-2" style="color: darkblue; font-size: 18px"></i></a>
                                     <a href="#" title="Edit Patient Information"><i class="fa fa-edit mr-2" style="color: darkgreen; font-size: 18px"></i></a>
                                     <a href="#" title="View Patient Information"><i class="fa fa-eye mr-2" style="color: darkred; font-size: 18px"></i></a>
                                     <a href="#" title="Transfer Patient"><i class="fa fa-exchange" style="color: black; font-size: 18px"></i></a>

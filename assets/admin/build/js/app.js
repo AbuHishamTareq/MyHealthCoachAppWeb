@@ -190,4 +190,31 @@ $(document).ready(function() {
             }
         });
     }
+
+    //CALCULATE BODY MASS INDEX WITH HEIGHT
+    /*$(document).on('input', '#pHeight', function() {
+        var height = $(this).val();
+        var weight = $('#pWeight').val();
+
+        if(weight != "") {
+            var bmi = weight / ((height/100) * (height/100));
+            $('#bmi').val(bmi.toFixed(2));
+        } else {
+            return false;
+        }
+    });*/
+
+    //CALCULATE BODY MASS INDEX WITH WEIGHT
+    $(document).on('input', '#pWeight', function() {
+        var height = $('#pHeight').val();
+        
+        var weight = $(this).val();
+
+        if(height != "") {
+            var bmi = weight / ((height/100) * (height/100));
+            $('#bmi').val(bmi.toFixed(2));
+        } else {
+            return false;
+        }
+    });
 });

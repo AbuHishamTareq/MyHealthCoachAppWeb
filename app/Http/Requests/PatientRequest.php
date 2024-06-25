@@ -26,7 +26,8 @@ class PatientRequest extends FormRequest
             'name' => 'required',
             'phone' => 'required',
             'coach_name' => 'required',
-            'gender' => 'required'
+            'gender' => 'required',
+            'pHeight' => 'required'
         ];
     }
 
@@ -39,7 +40,8 @@ class PatientRequest extends FormRequest
             'name.required' => 'Please enter patient name.',
             'phone.required' => 'Please enter patient mobile.',
             'coach_name.required' => 'Please select health coach.',
-            'gender.required' => 'Please select gender.'
+            'gender.required' => 'Please select gender.',
+            'pHeight.required' => 'Please enter patient height.'
         ];
     }
 }

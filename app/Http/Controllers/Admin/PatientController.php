@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ImportRequest;
 use App\Http\Requests\PatientRequest;
 use App\Imports\PatientImport;
-use App\Jobs\ImportPatients;
 use App\Models\Admin;
 use App\Models\Complex;
 use App\Models\Patient;
@@ -19,7 +18,11 @@ class PatientController extends Controller
         $coaches = Admin::where('user_type', '>', 1)->
             where('status', 1)->get()->toArray();
 
-        $patients = Patient::with('getComplex', 'getCoach')->paginate(10);
+        if(auth()->guard('admin')->user()->user_type > 1) {
+            $patients = Patient::with('getComplex', 'getCoach')->where('coach_id', auth()->guard('admin')->user()->id)->orderBy('created_at', 'DESC')->paginate(10);
+        } else {
+            $patients = Patient::with('getComplex', 'getCoach')->orderBy('created_at', 'DESC')->paginate(10);
+        }
 
         return view('admin.operations.patient.index', compact('patients', 'coaches'));
     }
@@ -39,6 +42,7 @@ class PatientController extends Controller
             $patient['uid'] = $request->input('uid');
             $patient['name'] = $request->input('name');
             $patient['gender'] = $request->input('gender');
+            $patient['height'] = $request->input('pHeight');
             $patient['password'] = bcrypt('123456');
             $patient['mobile'] = $request->input('phone');
             $patient['region'] = $request->input('region');
@@ -87,16 +91,15 @@ class PatientController extends Controller
         return view('admin.operations.patient.import');
     }
 
-    public function showProgress() {
-        return view('admin.operations.patient.progress');
-    }
-
     public function import(ImportRequest $request) {
         try{
-            Excel::import(new PatientImport, request()->file('importFile'));
+            $import = new PatientImport;
+            Excel::import($import, request()->file('importFile'));
+
+            $importedRows = $import->getRowCount();
 
             return redirect()->route('patient.index')->with([
-                'success' => 'Data Imported Successfully !!'
+                'success' => $importedRows . ' rows Imported Successfully !!'
             ]);
 
         } catch(\Exception $ex) {
@@ -184,7 +187,7 @@ class PatientController extends Controller
                 where($field3, $operator3, $value3)->
                 where($field4, $operator4, $value4)->
                 where($field5, $operator5, $value5)->
-                orderBy('created_at', 'ASC')->paginate(10);
+                orderBy('created_at', 'DESC')->paginate(10);
             return view('admin.operations.patient.ajaxSearch', ['patients' => $data]);
         }
     }

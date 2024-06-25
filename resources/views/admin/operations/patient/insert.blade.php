@@ -32,7 +32,7 @@ class="nav-md footer_fixed"
 <form action="{{ route('patient.insert') }}" method="POST">@csrf
     <div class="row">
         <div class="col-md-12 col-sm-12 ">
-            <input type="hidden" name="complex_id" id="complex_id" value="{{ $complex['id'] }}"
+            <input type="hidden" name="complex_id" id="complex_id" value="{{ $complex['id'] }}">
             <div class="x_panel">
                 <div class="x_title">
                     <div class="form-group row pull-right">
@@ -121,6 +121,9 @@ class="nav-md footer_fixed"
                                 </div>
                                 <div class="col-md-12 col-sm-12 form-group">
                                     <input class="form-control date" type="date" name="dob" id="dob" value="{{ old('dob') }}">
+                                </div>
+                                <div class="col-md-12 col-sm-12  form-group">
+                                    <input type="text" class="form-control" name="pHeight" id="pHeight" value="{{ old('pHeight') }}" placeholder="Height (cm)">
                                 </div>
                             </div>
                         </div>

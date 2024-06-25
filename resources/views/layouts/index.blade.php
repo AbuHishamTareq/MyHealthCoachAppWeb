@@ -20,6 +20,7 @@
 
         <!-- Custom Theme Style -->
         <link href="{{ url('assets/admin/build/css/custom.min.css') }}" rel="stylesheet">
+        @yield('css')
     </head>
     <body @yield('class')>
         <div class="container body">

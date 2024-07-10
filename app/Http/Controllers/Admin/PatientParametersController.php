@@ -39,7 +39,7 @@ class PatientParametersController extends Controller
         $cRbs->labels($rbsChart->keys());
         $cRbs->dataset('Blood Suger Level', 'bar', $rbsChart->values())->backgroundColor('rgba(255, 190, 88, 0.7)');
 
-        //BLOOD PRESSURE CHARTS
+        //WEIGHT AND BMI CHARTS
         $WeightAvg = PatientParameter::select('read_date', 
                  PatientParameter::raw('avg(weight) as weight'), 
                  PatientParameter::raw('avg(bmi) as bmi'))->

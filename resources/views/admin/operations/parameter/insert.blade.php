@@ -5,7 +5,6 @@
     $distolicResult = number_format($avgBp[0]['distolic']);
     $minWeight = 18.5 * (($patient['height'] / 100)^2);
     $maxWeight = 24.9 * (($patient['height'] / 100)^2);
-
 ?>
 
 @extends('layouts.index')
@@ -84,7 +83,7 @@ class="nav-md"
                         <tr>
                             <td style="font-size: 16px; width: 43%;">Heart Rate Average:</td>
                             @if ($systolicResult != 0 && $distolicResult != 0)
-                            <td style="font-size: 16px;">{{ number_format(($systolicResult - $distolicResult) * 1.6 + 80) . ' bpm' }}</td>
+                            <td style="font-size: 16px;">{{ number_format((($systolicResult - $distolicResult) * 1.6) + 80) . ' bpm' }}</td>
                             @else
                             <td style="font-size: 16px;">{{ number_format(0) . ' bpm' }}</td>
                             @endif

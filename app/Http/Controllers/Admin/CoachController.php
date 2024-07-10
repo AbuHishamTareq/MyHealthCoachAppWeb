@@ -31,6 +31,7 @@ class CoachController extends Controller
             $coach['email'] = $request->input('email');
             $coach['password'] = bcrypt($request->input('password'));
             $coach['name'] = $request->input('name');
+            $coach['specialist'] = $request->input('specialist');
             $coach['address'] = $request->input('address');
             $coach['mobile'] = $request->input('phone');
             $coach['user_type'] = $request->input('user_role');
@@ -120,6 +121,7 @@ class CoachController extends Controller
                 'name' => $request->input('name'),
                 'address' => $request->input('address'),
                 'mobile' => $request->input('phone'),
+                'specialist' => $request->input('specialist'),
                 'user_type' => $request->input('user_role'),
                 'complex_id' => $request->input('complex_name'),
                 'updated_by' => auth()->guard('admin')->user()->id,

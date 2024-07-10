@@ -38,6 +38,7 @@ class="nav-md footer_fixed"
                                 <th class="column-title text-center">image </th>
                                 <th class="column-title">Coach UID</th>
                                 <th class="column-title">Coach Name </th>
+                                <th class="column-title">Specialist </th>
                                 <th class="column-title">Complex Name </th>
                                 <th class="column-title">Phone Number </th>
                                 @if (Auth::guard('admin')->user()->user_type == 0)
@@ -51,7 +52,7 @@ class="nav-md footer_fixed"
                         <tbody>
                             <tr class="even pointer">
                                 <!-- class="odd pointer" -->
-                                <td class="text-center text-uppercase" style="font-size: 14px; color: darkred; font-weight: bold;" colspan="8">!! No Health Coaches found !!</td>
+                                <td class="text-center text-uppercase" style="font-size: 14px; color: darkred; font-weight: bold;" colspan="9">!! No Health Coaches found !!</td>
                             </tr>
                         </tbody>
                         @else
@@ -67,6 +68,7 @@ class="nav-md footer_fixed"
                                 </td>
                                 <td class=" " style="vertical-align: middle">{{ $coach['uid'] }}</td>
                                 <td class=" " style="vertical-align: middle">{{ $coach['name'] }}</td>
+                                <td class=" " style="vertical-align: middle">{{ $coach['specialist'] }}</td>
                                 <td class=" " style="vertical-align: middle">{{ $coach['get_complex_name']['name'] }}</td>
                                 <td class=" " style="vertical-align: middle">@if (empty($coach['mobile']))
                                     ---

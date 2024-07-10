@@ -54,6 +54,9 @@ class="nav-md footer_fixed"
                                     <input type="text" class="form-control" name="name" id="name" placeholder="Coach Name" value="{{ $coach['name'] }}">
                                 </div>
                                 <div class="col-md-12 col-sm-12  form-group">
+                                    <input type="text" class="form-control" name="specialist" id="specialist" placeholder="Specialist" value="{{ $coach['specialist'] }}">
+                                </div>
+                                <div class="col-md-12 col-sm-12  form-group">
                                     <input type="text" class="form-control" name="email" id="email" placeholder="Email Address" value="{{ $coach['email'] }}" readonly>
                                 </div>
                                 <div class="col-md-12 col-sm-12  form-group">

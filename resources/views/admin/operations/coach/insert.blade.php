@@ -54,6 +54,9 @@ class="nav-md footer_fixed"
                                     <input type="text" class="form-control" name="name" id="name" placeholder="Coach Name" value="{{ old('name') }}">
                                 </div>
                                 <div class="col-md-12 col-sm-12  form-group">
+                                    <input type="text" class="form-control" name="specialist" id="specialist" placeholder="Specialist" value="{{ old('specialist') }}">
+                                </div>
+                                <div class="col-md-12 col-sm-12  form-group">
                                     <input type="text" class="form-control" name="email" id="email" placeholder="Email Address" value="{{ old('email') }}">
                                 </div>
                                 <div class="col-md-12 col-sm-12  form-group">

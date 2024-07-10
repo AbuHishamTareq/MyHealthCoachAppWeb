@@ -11,23 +11,42 @@ use Illuminate\Validation\ValidationException;
 class PatientController extends Controller
 {
     public function login(Request $request) {
-        info($request->all());
         $request->validate([
-            'userUid' => ['required', 'numeric', 'exists:patients'],
+            'userUid' => ['required', 'numeric'],
             'userPassword' => ['required'],
             'deviceName' => ['required']
         ]);
 
-        $patient = Patient::where('uid', $request->userUid)->first();
+        if(Patient::where('uid', $request->userUid)->exists()) {
+            $patient = Patient::where('uid', $request->userUid)->first();
 
-        if(!$patient || !Hash::check($request->userPassword, $patient->password)) {
+            if(!Hash::check($request->userPassword, $patient->password)) {
+                throw ValidationException::withMessages([
+                    'uid' => ['Password incorrect']
+                ]);
+            }
+
+            return response()->json([
+                'token' => $patient->createToken($request->deviceName)->plainTextToken
+            ]);
+
+        } else {
             throw ValidationException::withMessages([
-                'uid' => ['The provided credentials are incorrect']
+                'uid' => ['ID / Iqama No. not Found']
             ]);
         }
+    }
 
-        return response()->json([
-            'token' => $patient->createToken($request->deviceName)->plainTextToken
-        ]);
+    public function getPatient(Request $request) {
+        return $request->user();
+    }
+
+    public function logout(Request $request) {
+        $request->user()->currentAccessToken()->delete();
+        return response()->noContent();
+    }
+
+    public function forgetPassword(){
+        //
     }
 }

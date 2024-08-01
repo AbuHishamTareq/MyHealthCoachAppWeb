@@ -26,65 +26,44 @@
                 </li>
                 <li role="presentation" class="nav-item dropdown open">
                     <a href="javascript:;" class="dropdown-toggle info-number" id="navbarDropdown1" data-toggle="dropdown" aria-expanded="false">
-                    <i class="fa fa-envelope-o"></i>
-                    <span class="badge bg-green">6</span>
+                        <i class="fa fa-envelope-o"></i>
+                        @if (!empty(Auth::user()->notifications))
+                        <span class="badge bg-green">{{ Auth::user()->unreadNotifications()->groupBy('notifiable_type')->count() }}</span>
+                        @endif
                     </a>
                     <ul class="dropdown-menu list-unstyled msg_list" role="menu" aria-labelledby="navbarDropdown1">
                         <li class="nav-item">
-                            <a class="dropdown-item">
-                            <span class="image"><img src="{{ asset('assets/admin/images/img.jpg') }}" alt="Profile Image" /></span>
-                            <span>
-                            <span>John Smith</span>
-                            <span class="time">3 mins ago</span>
-                            </span>
-                            <span class="message">
-                            Film festivals used to be do-or-die moments for movie makers. They were where...
-                            </span>
+                            <a class="dropdown-item" style="text-align: center">
+                                You Have {{ Auth::user()->unreadNotifications()->groupBy('notifiable_type')->count() }} Notifications
                             </a>
                         </li>
+                        @forelse (Auth::user()->unreadNotifications as $notification)
                         <li class="nav-item">
-                            <a class="dropdown-item">
-                            <span class="image"><img src="{{ asset('assets/admin/images/img.jpg') }}" alt="Profile Image" /></span>
-                            <span>
-                            <span>John Smith</span>
-                            <span class="time">3 mins ago</span>
-                            </span>
-                            <span class="message">
-                            Film festivals used to be do-or-die moments for movie makers. They were where...
-                            </span>
+                            <a href="{{ route('parameter.read.notification', ['id' => $notification['id'], 'notifyId' => $notification['notifiable_id']]) }}" class="dropdown-item">
+                                <span class="image">
+                                    @if ($notification['data']['sender_image'] == null || empty($notification['data']['sender_image']))
+                                    <img src="{{ asset('assets/admin/images/user.png') }}" alt="">
+                                    @else
+                                    <img src="{{ asset('assets/admin/upload/' . $notification['data']['sender_image']) }}" alt="">
+                                    @endif
+                                </span>
+                                <span style="font-weight: bold">{{ $notification['data']['sender'] }}</span>
+                                <span class="message">
+                                    {{ $notification['data']['message'] }}
+                                </span>
                             </a>
                         </li>
+                        @empty
                         <li class="nav-item">
                             <a class="dropdown-item">
-                            <span class="image"><img src="{{ asset('assets/admin/images/img.jpg') }}" alt="Profile Image" /></span>
-                            <span>
-                            <span>John Smith</span>
-                            <span class="time">3 mins ago</span>
-                            </span>
-                            <span class="message">
-                            Film festivals used to be do-or-die moments for movie makers. They were where...
-                            </span>
+                                <span>No Notification Found</span>
                             </a>
                         </li>
+                        @endforelse
                         <li class="nav-item">
-                            <a class="dropdown-item">
-                            <span class="image"><img src="{{ asset('assets/admin/images/img.jpg') }}" alt="Profile Image" /></span>
-                            <span>
-                            <span>John Smith</span>
-                            <span class="time">3 mins ago</span>
-                            </span>
-                            <span class="message">
-                            Film festivals used to be do-or-die moments for movie makers. They were where...
-                            </span>
+                            <a href="{{ route('parameter.view.notification') }}" class="dropdown-item" style="text-align: center">
+                                View All Unread Notifications
                             </a>
-                        </li>
-                        <li class="nav-item">
-                            <div class="text-center">
-                                <a class="dropdown-item">
-                                <strong>See All Alerts</strong>
-                                <i class="fa fa-angle-right"></i>
-                                </a>
-                            </div>
                         </li>
                     </ul>
                 </li>

@@ -7,21 +7,22 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class PatientParameter extends Model
+class Chat extends Model
 {
     use HasFactory, Notifiable, HasApiTokens;
 
-    protected $table = 'patient_parameters';
+    protected $table = 'chats';
 
     protected $fillable = [
-        'patient_id',
-        'bp_systolic',
-        'bp_distolic',
-        'rbs',
-        'weight',
-        'bmi',
-        'steps',
-        'read_date',
-        'read_time'
+        'id',
+        'room_id',
+        'sender_id',
+        'message',
+        'created_at',
+        'updated_at'
     ];
+
+    public function getSender() {
+        return $this->BelongsTo('App\Models\Patient', 'sender_id');
+    }
 }

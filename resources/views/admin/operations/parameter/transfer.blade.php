@@ -57,6 +57,10 @@ class="nav-md"
                             <td style="font-size: 16px;">{{ $patient['name'] }}</td>
                         </tr>
                         <tr>
+                            <td style="font-size: 16px; width: 20%;">Coach Name:</td>
+                            <td style="font-size: 16px;">{{ $patient['getCoach']['name'] }}</td>
+                        </tr>
+                        <tr>
                             <td style="font-size: 16px; width: 20%;">Gender:</td>
                             @if ($patient['gender'] == 'M')
                             <td style="font-size: 16px;">Male</td>
@@ -112,6 +116,10 @@ class="nav-md"
                             <td style="font-size: 16px; width: 43%;">Recommended Weight:</td>
                             <td style="font-size: 16px;">{{ $minWeight . ' kg - ' . $maxWeight . ' kg' }}</td>
                         </tr>
+                        <tr>
+                            <td style="font-size: 16px; width: 43%;">Steps Target:</td>
+                            <td style="font-size: 16px;">{{ $patient['step_target'] . ' steps' }}</td>
+                        </tr>
                     </table>
                 </div>
                 <div class="clearfix"></div>
@@ -125,46 +133,31 @@ class="nav-md"
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <form action="{{ route('parameter.insert', $patient['id']) }}" method="POST">
+                <form action="{{ route('parameter.transfer', $patient['id']) }}" method="POST">
                     @csrf
+                    <input type="hidden" name="uid" id="uid" value="{{ $patient['uid'] }}">
+                    <input type="hidden" name="name" id="name" value="{{ $patient['name'] }}">
                     <div class="col-md-3 col-sm-3">
                         <div class="form-group">
-                            <label for="bpSystolic" style="font-size: 14px;">Blood Pressure Systolic (mm Hg):</label>
-                            <input type="text" name="bpSystolic" id="bpSystolic" class="form-control">
+                            <label for="coach" style="font-size: 14px;">Transfer to:</label>
+                            <select name="coach_name" id="coach_name" class="form-control">
+                                <option value="">Select Health Coach</option>
+                                @foreach ($coaches as $coach)
+                                <option value="{{ $coach['id'] }}" {{ old("coach_name") == $coach['id'] ? "selected" : "" }}>
+                                    {{ $coach['name'] }}
+                                </option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-3 col-sm-3">
                         <div class="form-group">
-                            <label for="bpDistolic" style="font-size: 14px;">Blood Pressure Distolic (mm Hg):</label>
-                            <input type="text" name="bpDistolic" id="bpDistolic" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-3">
-                        <div class="form-group">
-                            <label for="rbs" style="font-size: 14px;">Blood Suger Level (mg/dL):</label>
-                            <input type="text" name="rbs" id="rbs" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-3">
-                        <div class="form-group">
-                            <label for="pHeight" style="font-size: 14px;">Patient Height (cm):</label>
-                            <input type="text" name="pHeight" id="pHeight" class="form-control" value="{{ $patient['height'] }}" disabled>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-3">
-                        <div class="form-group">
-                            <label for="pWeight" style="font-size: 14px;">Patient Weight (kg):</label>
-                            <input type="text" name="pWeight" id="pWeight" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-3">
-                        <div class="form-group">
-                            <label for="bmi" style="font-size: 14px;">Body Mass Index (BMI):</label>
-                            <input type="text" name="bmi" id="bmi" class="form-control">
+                            <label for="complex" style="font-size: 14px;">Complex Name:</label>
+                            <input type="text" name="complex" id="complex" class="form-control" readonly>
                         </div>
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-success pull-right" style="margin-top: 28px;">Save Parameters</button>
+                        <button type="submit" class="btn btn-success pull-right" style="margin-top: 28px;">Transfer Patient</button>
                     </div>
                 </form>
                 <div class="clearfix"></div>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\ChatRoomController;
 use App\Http\Controllers\Admin\CoachController;
 use App\Http\Controllers\Admin\ComplexController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -59,6 +60,25 @@ Route::GROUP(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'auth
     //PATIENT PARAMETERS
     Route::GET('insert-parameters/{id?}', [PatientParametersController::class, 'show'])->name('parameter.show.insert');
     Route::POST('insert-parameters/{id?}', [PatientParametersController::class, 'insert'])->name('parameter.insert');
+    Route::GET('update-parameters/{id?}', [PatientParametersController::class, 'update'])->name('parameter.show.update');
+    Route::POST('update-parameters/{id?}', [PatientParametersController::class, 'edit'])->name('parameter.update');
+    Route::POST('/update-weight', [PatientParametersController::class, 'updateWeight']);
+    Route::POST('/update-rbs', [PatientParametersController::class, 'updateRbs']);
+    Route::POST('/update-bp', [PatientParametersController::class, 'updateBp']);
+    Route::GET('view-parameters/{id?}', [PatientParametersController::class, 'view'])->name('parameter.view');
+    Route::GET('transfer/{id?}', [PatientParametersController::class, 'showTransfer'])->name('parameter.show.transfer');
+    Route::POST('transfer/{id?}', [PatientParametersController::class, 'transfer'])->name('parameter.transfer');
+    Route::POST('/get-complex', [PatientParametersController::class, 'getComplexName']);
+    Route::GET('view-notification', [PatientParametersController::class, 'viewNotification'])->name('parameter.view.notification');
+    Route::GET('read-notification/{id?}/{notifyId?}', [PatientParametersController::class, 'readNotification'])->name('parameter.read.notification');
+    Route::GET('reject/{id?}/{notifyId?}', [PatientParametersController::class, 'reject'])->name('parameter.reject');
+    Route::GET('accept/{id?}/{notifyId?}', [PatientParametersController::class, 'accept'])->name('parameter.accept');
+
+    //CHAT ROOMS
+    Route::GET('chat-rooms', [ChatRoomController::class, 'index'])->name('chat-room.index');
+    Route::GET('insert-chat-room', [ChatRoomController::class, 'show'])->name('chat-room.show.insert');
+    Route::POST('insert-chat-room', [ChatRoomController::class, 'insert'])->name('chat-room.insert');
+    Route::POST('update-room-status', [ChatRoomController::class, 'updateStatus']);
 });
 
 Route::GROUP(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'guest:admin'], function() {

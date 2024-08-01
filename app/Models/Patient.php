@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 class Patient extends Model
 {
-    use HasFactory, HasApiTokens;
+    use HasFactory, HasApiTokens, Notifiable;
 
     protected $table = 'patients';
 
@@ -23,6 +24,7 @@ class Patient extends Model
         'city',
         'address',
         'blood_group',
+        'step_target',
         'coach_id',
         'complex_id',
         'birth_date',

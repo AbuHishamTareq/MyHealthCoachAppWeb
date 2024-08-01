@@ -35,7 +35,7 @@ class="nav-md footer_fixed"
                     <table class="table table-striped jambo_table">
                         <thead>
                             <tr class="headings">
-                                <th class="column-title text-center">image </th>
+                                <th class="column-title text-center"></th>
                                 <th class="column-title">Coach UID</th>
                                 <th class="column-title">Coach Name </th>
                                 <th class="column-title">Specialist </th>

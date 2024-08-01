@@ -24,11 +24,11 @@ class PatientParametersController extends Controller
             ->latest()
             ->first();
 
-        if(!$systolic && !$distolic) {
+        /*if(!$systolic && !$distolic) {
             $heartRate = null;
         } else {
             $heartRate = (($systolic['bp_systolic'] - $distolic['bp_distolic']) * 1.6) + 80;
-        }
+        }*/
 
         $rbs = PatientParameter::select('rbs')
             ->where('patient_id', $request->patientId)
@@ -47,25 +47,82 @@ class PatientParametersController extends Controller
             ->where('bmi', '!=', '')
             ->latest()
             ->first();
+        
+        $steps = PatientParameter::select('steps')->where([
+            'patient_id' => $request->patientId,
+            'read_date' => \Carbon\Carbon::now()->toDateString()
+        ])
+        ->latest()
+        ->first();
 
-        if($patient['gender'] == 'M') {
+        $steps = $steps['steps'] ?? 0;
+
+        /*if($patient['gender'] == 'M') {
             $fat = number_format((1.20 * $bmi) + (0.23 * $age) - 16.2, 2);
         } elseif ($patient['gender'] == 'F') {
             $fat = number_format((1.20 * $bmi) + (0.23 * $age) - 5.4, 2);
-        }
+        }*/
 
-        $minWeight = 18.5 * (($patient['height'] / 100)^2);
-        $maxWeight = 24.9 * (($patient['height'] / 100)^2);
+        /*$minWeight = 18.5 * (($patient['height'] / 100)^2);
+        $maxWeight = 24.9 * (($patient['height'] / 100)^2);*/
+        
 
         return response()->json([
             'age' => $age,
             'bp' => $systolic['bp_systolic'] . '/' . $distolic['bp_distolic'],
-            'heartRate' => number_format($heartRate),
+            //'heartRate' => number_format($heartRate),
             'rbs' => number_format($rbs['rbs']),
             'bmi' => number_format($bmi, 2),
-            'fat' => $fat,
-            'rWeight' => number_format($minWeight, 2) . ' - ' . number_format($maxWeight, 2),
-            'weight' => number_format($weight['weight'], 2)
+            //'fat' => $fat,
+            //'rWeight' => number_format($minWeight, 2) . ' - ' . number_format($maxWeight, 2),
+            'weight' => number_format($weight['weight'], 2),
+            'steps' => $steps
+        ]);
+    }
+
+    public function gethealthParametersWithDate(Request $request) {
+        $patient = Patient::where('id', $request->patientId)->first();
+        $age = \Carbon\Carbon::parse($patient['birth_date'])->diff(\Carbon\Carbon::now())->format('%y');
+        
+        $systolic = PatientParameter::select('bp_systolic')
+            ->where('patient_id', $request->patientId)
+            ->where('bp_systolic', '!=', '')
+            ->where('read_date', \Carbon\Carbon::now()->toDateString())
+            ->latest()
+            ->first();
+        $distolic = PatientParameter::select('bp_distolic')
+            ->where('patient_id', $request->patientId)
+            ->where('bp_distolic', '!=', '')
+            ->where('read_date', \Carbon\Carbon::now()->toDateString())
+            ->latest()
+            ->first();
+
+        $rbs = PatientParameter::select('rbs')
+            ->where('patient_id', $request->patientId)
+            ->where('rbs', '!=', '')
+            ->where('read_date', \Carbon\Carbon::now()->toDateString())
+            ->latest()
+            ->first();
+
+        $weight = PatientParameter::select('weight')
+            ->where('patient_id', $request->patientId)
+            ->where('weight', '!=', '')
+            ->where('bmi', '!=', '')
+            ->where('read_date', \Carbon\Carbon::now()->toDateString())
+            ->latest()
+            ->first();
+
+        $systolicWithDate = $systolic['bp_systolic'] ?? '';
+        $distolicWithDate = $distolic['bp_distolic'] ?? '';
+        $rbsWithDate = $rbs['rbs'] ?? 0;
+        $wightWithDate = $weight['weight'] ?? 0.00;
+        
+        return response()->json([
+            'age' => $age,
+            'bp_sys' => $systolicWithDate,
+            'bp_dis' => $distolicWithDate,
+            'rbs' => number_format($rbsWithDate),
+            'weight' => number_format($wightWithDate, 2),
         ]);
     }
 
@@ -150,7 +207,7 @@ class PatientParametersController extends Controller
         $parameter['read_date'] = date('Y-m-d');
         $parameter['read_time'] = date('H:i:s');
 
-        //PatientParameter::create($parameter);
+        PatientParameter::create($parameter);
     
         return response()->json([
             'status' => 'success'
@@ -179,5 +236,33 @@ class PatientParametersController extends Controller
         info($bp);
 
         return response()->json($bp);
+    }
+
+    public function insertSteps(Request $request) {
+
+        $steps = PatientParameter::select('steps')->where([
+            'patient_id' => $request->id,
+            'read_date' => \Carbon\Carbon::now()->toDateString()
+        ])->get();
+
+        $parameter['patient_id'] = $request->id;
+        $parameter['steps'] = $request->steps;
+        $parameter['read_date'] = date('Y-m-d');
+        $parameter['read_time'] = date('H:i:s');
+        
+        if(empty($steps) && $steps == null) {
+            PatientParameter::create($parameter);   
+        } else {
+            PatientParameter::where([
+                'patient_id' => $request->id,
+                'read_date' => \Carbon\Carbon::now()->toDateString()
+                ])->update([
+                    'steps' => $request->steps,
+                ]);
+        }
+    
+        return response()->json([
+            'status' => 'success'
+        ]);
     }
 }

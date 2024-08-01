@@ -46,6 +46,12 @@
                         </ul>
                     </li>
                     <li>
+                        <a><i class="fa fa-comments-o"></i> Chat <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="{{ route('chat-room.index') }}">Chat Rooms</a></li>
+                        </ul>
+                    </li>
+                    <li>
                         <a><i class="fa fa-cog"></i> Settings <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="{{ route('usertype.index') }}">User Roles</a></li>

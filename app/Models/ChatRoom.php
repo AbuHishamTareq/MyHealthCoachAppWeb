@@ -7,22 +7,23 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Complex extends Model
+class ChatRoom extends Model
 {
     use HasFactory, Notifiable, HasApiTokens;
 
-    protected $table = 'complexes';
+    protected $table = 'chat_rooms';
 
     protected $fillable = [
+        'id',
         'name',
-        'address',
-        'region',
-        'city',
-        'phone_number',
-        'latitude',
-        'longitude',
-        'status',
         'created_by',
-        'updated_by'
+        'image',
+        'status',
+        'created_at',
+        'updated_at'
     ];
+
+    public function getCreatedBy() {
+        return $this->BelongsTo('App\Models\Admin', 'created_by');
+    }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ExpoApp\ChatRoomController;
 use App\Http\Controllers\ExpoApp\CoachController;
 use App\Http\Controllers\ExpoApp\PatientController;
 use App\Http\Controllers\ExpoApp\PatientParametersController;
@@ -27,6 +28,7 @@ Route::GROUP(['middleware' => ["auth:sanctum"]], function() {
 
     //PATIENTS PARAMETERS
     Route::GET('healthParameters', [PatientParametersController::class, 'gethealthParameters']);
+    Route::GET('healthParametersWithDate', [PatientParametersController::class, 'gethealthParametersWithDate']);
     
     Route::POST('insertRbsResult', [PatientParametersController::class, 'inserRbsResult']);
     Route::GET('getRbsData', [PatientParametersController::class, 'getRbsData']);
@@ -39,6 +41,12 @@ Route::GROUP(['middleware' => ["auth:sanctum"]], function() {
     Route::POST('insertBpResult', [PatientParametersController::class, 'insertBpResult']);
     Route::GET('getBpData', [PatientParametersController::class, 'getBpData']);
     Route::GET('getBpDetailsFromAPI', [PatientParametersController::class , 'getBpDetailsFromAPI']);
+
+    Route::POST('insertSteps', [PatientParametersController::class, 'insertSteps']);
+
+    Route::GET('getChatData', [ChatRoomController::class, 'getChatData']);
+    Route::POST('insertMessage', [ChatRoomController::class, 'insertMessage']);
+    Route::GET('getChatMessage', [ChatRoomController::class, 'getChatMessage']);
 });
 
 Route::POST('login', [PatientController::class, 'login']);

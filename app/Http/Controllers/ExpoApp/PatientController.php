@@ -32,7 +32,7 @@ class PatientController extends Controller
 
         } else {
             throw ValidationException::withMessages([
-                'uid' => ['ID / Iqama No. not Found']
+                'uid' => ['ID or Iqama Number not Found']
             ]);
         }
     }

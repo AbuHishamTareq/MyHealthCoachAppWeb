@@ -13,7 +13,7 @@ class Step extends Model
 
     protected $table = 'steps';
 
-    protected $fillabe = [
+    protected $fillable = [
         'id',
         'patient_id',
         'steps',

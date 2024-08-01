@@ -9,6 +9,7 @@ use App\Mail\SendEmail;
 use Illuminate\Http\Request;
 use App\Models\Admin;
 use App\Models\Complex;
+use App\Models\Patient;
 use App\Models\UserType;
 use Illuminate\Support\Facades\Mail;
 
@@ -135,5 +136,14 @@ class CoachController extends Controller
         } catch(\Exception $ex) {
             return redirect()->back()->with('error', $ex->getMessage());
         }
+    }
+
+    public function view($id) {
+        $coach = Admin::with('getComplexName')->where('id', $id)->first();
+        $patients = Patient::where('coach_id', $id)->get()->toArray();
+
+        //dd($coach['getComplexName']); die();
+
+        return view('admin.operations.coach.view', compact('coach', 'patients'));
     }
 }

@@ -46,6 +46,7 @@ Route::GROUP(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'auth
     Route::POST('update-coach-status', [CoachController::class, 'updateStatus']);
     Route::GET('update-coach/{id?}', [CoachController::class, 'showUpdate'])->name('coach.update.show');
     Route::POST('update-coach/{id?}', [CoachController::class, 'update'])->name('coach.update');
+    Route::GET('view-coach/{id?}', [CoachController::class, 'view'])->name('coach.view');
 
     //PATIENT
     Route::GET('patient', [PatientController::class, 'index'])->name('patient.index');
@@ -73,6 +74,7 @@ Route::GROUP(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'auth
     Route::GET('read-notification/{id?}/{notifyId?}', [PatientParametersController::class, 'readNotification'])->name('parameter.read.notification');
     Route::GET('reject/{id?}/{notifyId?}', [PatientParametersController::class, 'reject'])->name('parameter.reject');
     Route::GET('accept/{id?}/{notifyId?}', [PatientParametersController::class, 'accept'])->name('parameter.accept');
+    Route::GET('read/{id?}/{notifyId?}', [PatientParametersController::class, 'read'])->name('parameter.read');
 
     //CHAT ROOMS
     Route::GET('chat-rooms', [ChatRoomController::class, 'index'])->name('chat-room.index');

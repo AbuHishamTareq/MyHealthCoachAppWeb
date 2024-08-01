@@ -11,9 +11,9 @@ use App\Models\Rbs;
 use App\Models\Step;
 use App\Models\Weight;
 use App\Notifications\NewTransferRequest;
+use App\Notifications\TransferResult;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
-use Auth;
 
 class PatientParametersController extends Controller
 {
@@ -344,6 +344,7 @@ class PatientParametersController extends Controller
         try {
             if(!empty($request['coach_name'])) {
                 $reciever_id = Admin::where('id', $request['coach_name'])->first();
+                $sender_id = auth()->guard('admin')->user()->id;
                 $sender = auth()->guard('admin')->user()->name;
                 $sender_image = auth()->guard('admin')->user()->image_url;
                 $patient = $request['name'];
@@ -351,7 +352,7 @@ class PatientParametersController extends Controller
                 $message = 'Request to Transfer Patient: ' . $request['name'] . ', ID No. ' . $request['uid'];
 
 
-                Notification::send($reciever_id, new NewTransferRequest($sender, $message, $sender_image, $patient, $uid));
+                Notification::send($reciever_id, new NewTransferRequest($sender_id, $sender, $message, $sender_image, $patient, $uid));
 
                 return redirect()->back()->with([
                     'success' => 'Transfer Request Sent Successfully !!'
@@ -380,6 +381,14 @@ class PatientParametersController extends Controller
         $notification = $coach->unreadNotifications()->where('id', $id)->first();
 
         try {
+            $message = 'Rejected your transfer request !!';
+            $reciever_id = Admin::where('id', $notification['data']['sender_id'])->first();
+            $sender_id = auth()->guard('admin')->user()->id;
+            $sender = auth()->guard('admin')->user()->name;
+            $sender_image = auth()->guard('admin')->user()->image_url;
+
+            Notification::send($reciever_id, new TransferResult($sender_id, $sender, $sender_image, $message));
+
             $notification->markAsRead();
 
             return redirect()->route('parameter.view.notification')->with([
@@ -401,11 +410,34 @@ class PatientParametersController extends Controller
                 'coach_id' => $notifyId,
                 'complex_id' => $complex['complex_id']
             ]);
-            
+
+            $message = 'Accepted your transfer request !!';
+            $reciever_id = Admin::where('id', $notification['data']['sender_id'])->first();
+            $sender_id = auth()->guard('admin')->user()->id;
+            $sender = auth()->guard('admin')->user()->name;
+            $sender_image = auth()->guard('admin')->user()->image_url;
+
+            Notification::send($reciever_id, new TransferResult($sender_id, $sender, $sender_image, $message));
+
             $notification->markAsRead();
 
             return redirect()->route('parameter.view.notification')->with([
                 'success' => 'Request Accepted Successfully. Patient: ' . $notification['data']['patient'] . ' ID No. ' . $notification['data']['uid'] . ' transferred to your team !!'
+            ]);
+        } catch (\Exception $ex) {
+            return redirect()->back()->with('error', $ex->getMessage());
+        }
+    }
+
+    public function read($id, $notifyId) {
+        $coach = Admin::find($notifyId);
+        $notification = $coach->unreadNotifications()->where('id', $id)->first();
+
+        try {
+            $notification->markAsRead();
+
+            return redirect()->route('parameter.view.notification')->with([
+                'success' => 'Notification set as read Successfully !!'
             ]);
         } catch (\Exception $ex) {
             return redirect()->back()->with('error', $ex->getMessage());

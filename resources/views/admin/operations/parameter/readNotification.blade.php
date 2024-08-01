@@ -46,12 +46,18 @@ class="nav-md"
                         </div>
                     </div>
                     <div class="col-md-3 col-sm-3 col-xs-3" style="display: flex; justfiy-content: center; align-items: center">
+                    @if ($notification['type'] == 'App\Notifications\NewTransferRequest')
                         <div class="ml-4">
                             <a href="{{ route('parameter.accept', ['id' => $notification['id'], 'notifyId' => $notification['notifiable_id']]) }}" class="btn btn-sm btn-success" style="width: 100px">Accept</a>
                         </div>
                         <div class="ml-4">
                             <a href="{{ route('parameter.reject', ['id' => $notification['id'], 'notifyId' => $notification['notifiable_id']]) }}" class="btn btn-sm btn-danger" style="width: 100px">Reject</a>
                         </div>
+                    @else
+                        <div>
+                            <a href="{{ route('parameter.read', ['id' => $notification['id'], 'notifyId' => $notification['notifiable_id']]) }}" class="btn btn-sm btn-success" style="width: 100px">Set as Read</a>
+                        </div>
+                    @endif
                     </div>
                 </div>
             </div>

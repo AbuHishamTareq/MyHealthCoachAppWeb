@@ -56,7 +56,6 @@ class="nav-md"
                             <th class="column-title">Phone Number </th>
                             @if (Auth::guard('admin')->user()->user_type == 0)
                             <th class="column-title">Role </th>
-                            <th class="column-title no-link last text-center"><span class="nobr">Action</span></th>
                             @endif
                         </tr>
                     </thead>
@@ -73,7 +72,7 @@ class="nav-md"
                         <tr @if ($loop->iteration % 2 == 0) class="even pointer" @else class="odd pointer" @endif>
                             <td class="text-center">
                                 @if ($coach['image_url'] == null || empty($coach['image_url']))
-                                <img src="{{ asset('assets/admin/images/user.png') }}" alt="..." class="img-circle profile_img">
+                                <img src="{{ asset('assets/admin/images/user.png') }}" alt="..." class="img-circle" style="width: 35px;">
                                 @else
                                 <img src="{{ asset('assets/admin/upload/'. $coach['image_url']) }}" alt="..." class="img-circle" style="width: 35px;">
                                 @endif
@@ -87,10 +86,12 @@ class="nav-md"
                                 @endif
                             </td>
                             @if (Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1)
-                            <td class=" " style="vertical-align: middle">{{ $coach['get_role']['role'] }} </td>
-                            <td class="text-center" style="vertical-align: middle">
-                                <a href="#" title="Edit Coach Information"><i class="fa fa-edit mr-2" style="color: darkgreen; font-size: 18px"></i></a>
-                                <a href="#" title="View Coach Information"><i class="fa fa-eye" style="color: darkred; font-size: 18px"></i></a>
+                            <td class=" " style="vertical-align: middle">
+                                @if(!empty($coach['get_role']['role']) && $coach['get_role']['role'] != null)
+                                    {{ $coach['get_role']['role'] }}
+                                @else
+                                    ---
+                                @endif
                             </td>
                             @endif
                         </tr>

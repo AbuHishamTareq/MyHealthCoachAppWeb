@@ -2,32 +2,28 @@
 
 namespace App\Notifications;
 
-use App\Models\Patient;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class NewTransferRequest extends Notification
+class TransferResult extends Notification
 {
     use Queueable;
     private $sender_id;
     private $sender;
-    private $message;
     private $sender_image;
-    private $patient;
-    private $uid;
+    private $message;
+
     /**
      * Create a new notification instance.
      */
-    public function __construct($sender_id, $sender, $message, $sender_image, $patient, $uid)
+    public function __construct($sender_id, $sender, $sender_image, $message)
     {
         $this->sender_id = $sender_id;
         $this->sender = $sender;
-        $this->message = $message;
         $this->sender_image = $sender_image;
-        $this->patient = $patient;
-        $this->uid = $uid;
+        $this->message = $message;
     }
 
     /**
@@ -61,10 +57,8 @@ class NewTransferRequest extends Notification
         return [
             'sender_id' => $this->sender_id,
             'sender' => $this->sender,
-            'message' => $this->message,
             'sender_image' => $this->sender_image,
-            'patient' => $this->patient,
-            'uid' => $this->uid,
+            'message' => $this->message,
         ];
     }
 }

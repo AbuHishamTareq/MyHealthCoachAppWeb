@@ -38,7 +38,7 @@ class ChatRoomController extends Controller
         $messages = Chat::with('getSender')
             ->where('room_id', $request->room_id)
             ->orderBy('created_at', 'ASC')
-            ->get()->toArray();
+            ->latest()->first();
 
         if($messages) {
             return response()->json($messages);
